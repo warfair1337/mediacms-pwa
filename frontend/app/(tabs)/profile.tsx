@@ -148,6 +148,23 @@ const styles = StyleSheet.create({
     color: '#888',
     fontSize: 14,
   },
+  signInPrompt: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F1F1F',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+    gap: 12,
+    borderWidth: 1,
+    borderColor: '#FF0000',
+  },
+  signInPromptText: {
+    flex: 1,
+    color: '#FFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
   section: {
     marginBottom: 24,
   },
