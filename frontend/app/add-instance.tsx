@@ -19,12 +19,64 @@ import { Ionicons } from '@expo/vector-icons';
 export default function AddInstance() {
   const router = useRouter();
   const login = useStore(state => state.login);
+  const addInstance = useStore(state => state.addInstance);
+  const setCurrentInstance = useStore(state => state.setCurrentInstance);
   const [url, setUrl] = useState('demo.mediacms.io');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [requiresAuth, setRequiresAuth] = useState(false);
 
-  const handleAddInstance = async () => {
+  const handleConnectWithoutAuth = async () => {
+    if (!url.trim()) {
+      Alert.alert('Error', 'Please enter instance URL');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      // Clean URL
+      let cleanUrl = url.trim();
+      if (!cleanUrl.startsWith('http')) {
+        cleanUrl = 'https://' + cleanUrl;
+      }
+      cleanUrl = cleanUrl.replace(/\/$/, '');
+      
+      // Test connection by trying to fetch media (public endpoint)
+      const testResponse = await axios.get(`${cleanUrl}/api/v1/media`, {
+        params: { limit: 1 }
+      });
+      
+      // Create instance without auth
+      const instance = {
+        id: Date.now().toString(),
+        name: cleanUrl.replace(/https?:\/\//, ''),
+        url: cleanUrl,
+      };
+      
+      await addInstance(instance);
+      await setCurrentInstance(instance);
+      
+      Alert.alert('Success', 'Connected to instance (browsing as guest)', [
+        { text: 'OK', onPress: () => router.replace('/(tabs)/home') },
+      ]);
+    } catch (error: any) {
+      console.error('Connection failed:', error);
+      Alert.alert(
+        'Connection Failed', 
+        'Could not connect to instance. You may need to sign in.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => setRequiresAuth(true) },
+        ]
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleConnectWithAuth = async () => {
     if (!url.trim()) {
       Alert.alert('Error', 'Please enter instance URL');
       return;
@@ -38,11 +90,11 @@ export default function AddInstance() {
     try {
       setLoading(true);
       await login(url, username, password);
-      Alert.alert('Success', 'Connected successfully!', [
+      Alert.alert('Success', 'Connected and logged in successfully!', [
         { text: 'OK', onPress: () => router.replace('/(tabs)/home') },
       ]);
     } catch (error: any) {
-      Alert.alert('Connection Failed', error.message || 'Failed to connect to instance');
+      Alert.alert('Login Failed', error.message || 'Failed to login to instance');
     } finally {
       setLoading(false);
     }
