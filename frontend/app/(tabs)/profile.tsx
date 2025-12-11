@@ -45,17 +45,29 @@ export default function Profile() {
         {/* User Info */}
         <View style={styles.userCard}>
           <View style={styles.avatar}>
-            <Ionicons name="person" size={40} color="#FFF" />
+            <Ionicons name={currentUser ? "person" : "person-outline"} size={40} color="#FFF" />
           </View>
           <View style={styles.userInfo}>
             <Text style={styles.userName}>
-              {currentUser?.name || currentUser?.username || 'User'}
+              {currentUser?.name || currentUser?.username || 'Guest'}
             </Text>
             <Text style={styles.userEmail}>
-              {currentUser?.email || currentInstance?.username}
+              {currentUser?.email || currentInstance?.username || 'Browsing as guest'}
             </Text>
           </View>
         </View>
+
+        {/* Sign In Prompt for Guests */}
+        {!currentUser && (
+          <TouchableOpacity 
+            style={styles.signInPrompt}
+            onPress={() => router.push('/add-instance')}
+          >
+            <Ionicons name="log-in" size={20} color="#FF0000" />
+            <Text style={styles.signInPromptText}>Sign in to access all features</Text>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+        )}
 
         {/* Instance Info */}
         <View style={styles.section}>
