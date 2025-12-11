@@ -32,7 +32,7 @@ export default function Library() {
   }, [currentInstance]);
 
   const loadPlaylists = async () => {
-    if (!currentInstance?.token) {
+    if (!currentInstance) {
       setLoading(false);
       return;
     }
