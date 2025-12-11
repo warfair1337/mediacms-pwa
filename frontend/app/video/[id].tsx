@@ -38,7 +38,7 @@ export default function VideoPlayer() {
   }, [id, currentInstance]);
 
   const loadVideo = async () => {
-    if (!currentInstance?.token) return;
+    if (!currentInstance) return;
 
     try {
       setLoading(true);
