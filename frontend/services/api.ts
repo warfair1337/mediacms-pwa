@@ -4,17 +4,23 @@ import { Video, SearchResult, Playlist, User } from '../types';
 export class MediaCMSAPI {
   private client: AxiosInstance;
   private baseUrl: string;
-  private token: string;
+  private token?: string;
 
-  constructor(baseUrl: string, token: string) {
+  constructor(baseUrl: string, token?: string) {
     this.baseUrl = baseUrl;
     this.token = token;
+    
+    const headers: any = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+    
     this.client = axios.create({
       baseURL: `${baseUrl}/api/v1`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+      headers,
     });
   }
 
