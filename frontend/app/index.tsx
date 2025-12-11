@@ -1,16 +1,41 @@
-import { Text, View, StyleSheet, Image } from "react-native";
-
-const EXPO_PUBLIC_BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+import { useEffect } from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useStore } from '../store/useStore';
 
 export default function Index() {
-  console.log(EXPO_PUBLIC_BACKEND_URL, "EXPO_PUBLIC_BACKEND_URL");
+  const router = useRouter();
+  const currentInstance = useStore(state => state.currentInstance);
+  const loadInstances = useStore(state => state.loadInstances);
+  const loadWatchHistory = useStore(state => state.loadWatchHistory);
+
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
+  const initializeApp = async () => {
+    // Load saved data
+    await loadInstances();
+    await loadWatchHistory();
+    
+    // Small delay to ensure state is loaded
+    setTimeout(() => {
+      // Check if user has a current instance
+      const instance = useStore.getState().currentInstance;
+      
+      if (instance && instance.token) {
+        // User is logged in, go to home
+        router.replace('/(tabs)/home');
+      } else {
+        // No instance, go to connection manager
+        router.replace('/connection-manager');
+      }
+    }, 100);
+  };
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../assets/images/app-image.png")}
-        style={styles.image}
-      />
+      <ActivityIndicator size="large" color="#FF0000" />
     </View>
   );
 }
@@ -18,13 +43,8 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0c0c0c",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
+    backgroundColor: '#0F0F0F',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
