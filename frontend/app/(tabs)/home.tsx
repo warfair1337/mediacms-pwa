@@ -33,7 +33,7 @@ export default function Home() {
   }, [currentInstance]);
 
   const loadVideos = async () => {
-    if (!currentInstance?.token) return;
+    if (!currentInstance) return;
 
     try {
       const api = new MediaCMSAPI(currentInstance.url, currentInstance.token);
