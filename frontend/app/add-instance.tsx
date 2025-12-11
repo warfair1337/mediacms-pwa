@@ -117,7 +117,9 @@ export default function AddInstance() {
 
           <Text style={styles.title}>Add MediaCMS Instance</Text>
           <Text style={styles.subtitle}>
-            Enter your instance URL and login credentials
+            {requiresAuth 
+              ? 'Enter your login credentials' 
+              : 'Enter instance URL to browse publicly'}
           </Text>
 
           <View style={styles.form}>
@@ -136,55 +138,99 @@ export default function AddInstance() {
               />
             </View>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Username</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter username"
-                placeholderTextColor="#666"
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={!loading}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter password"
-                placeholderTextColor="#666"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={!loading}
-              />
-            </View>
-          </View>
-
-          <TouchableOpacity
-            style={[styles.connectButton, loading && styles.connectButtonDisabled]}
-            onPress={handleAddInstance}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
+            {requiresAuth && (
               <>
-                <Ionicons name="log-in" size={20} color="#FFF" />
-                <Text style={styles.connectButtonText}>Connect & Login</Text>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Username</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter username"
+                    placeholderTextColor="#666"
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    editable={!loading}
+                  />
+                </View>
+
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Password</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter password"
+                    placeholderTextColor="#666"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    editable={!loading}
+                  />
+                </View>
               </>
             )}
-          </TouchableOpacity>
+          </View>
+
+          {requiresAuth ? (
+            <>
+              <TouchableOpacity
+                style={[styles.connectButton, loading && styles.connectButtonDisabled]}
+                onPress={handleConnectWithAuth}
+                disabled={loading}
+              >
+                {loading ? (
+                  <ActivityIndicator color="#FFF" />
+                ) : (
+                  <>
+                    <Ionicons name="log-in" size={20} color="#FFF" />
+                    <Text style={styles.connectButtonText}>Sign In & Connect</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.browsePublicButton}
+                onPress={() => setRequiresAuth(false)}
+                disabled={loading}
+              >
+                <Text style={styles.browsePublicButtonText}>Browse Without Sign In</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={[styles.connectButton, loading && styles.connectButtonDisabled]}
+                onPress={handleConnectWithoutAuth}
+                disabled={loading}
+              >
+                {loading ? (
+                  <ActivityIndicator color="#FFF" />
+                ) : (
+                  <>
+                    <Ionicons name="globe" size={20} color="#FFF" />
+                    <Text style={styles.connectButtonText}>Browse as Guest</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.signInButton}
+                onPress={() => setRequiresAuth(true)}
+                disabled={loading}
+              >
+                <Ionicons name="log-in" size={18} color="#FF0000" />
+                <Text style={styles.signInButtonText}>Sign In Instead</Text>
+              </TouchableOpacity>
+            </>
+          )}
 
           <View style={styles.infoBox}>
             <Ionicons name="information-circle" size={20} color="#888" />
             <Text style={styles.infoText}>
-              You can test with demo.mediacms.io using your account credentials
+              {requiresAuth
+                ? 'Sign in to access private videos and your playlists'
+                : 'Browse public content without signing in. You can sign in later for full access.'}
             </Text>
           </View>
         </ScrollView>
