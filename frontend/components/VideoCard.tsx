@@ -31,7 +31,6 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video, onPress }) => {
           <Image 
             source={{ uri: video.thumbnail_url }} 
             style={styles.thumbnail}
-            resizeMode="cover"
           />
         ) : (
           <View style={[styles.thumbnail, styles.placeholderThumbnail]}>
