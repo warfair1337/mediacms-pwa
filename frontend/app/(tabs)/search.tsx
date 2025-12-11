@@ -26,7 +26,7 @@ export default function Search() {
   const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async () => {
-    if (!query.trim() || !currentInstance?.token) return;
+    if (!query.trim() || !currentInstance) return;
 
     Keyboard.dismiss();
     setLoading(true);
