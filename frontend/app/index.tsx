@@ -23,8 +23,8 @@ export default function Index() {
       // Check if user has a current instance
       const instance = useStore.getState().currentInstance;
       
-      if (instance && instance.token) {
-        // User is logged in, go to home
+      if (instance) {
+        // User has an instance (logged in or guest), go to home
         router.replace('/(tabs)/home');
       } else {
         // No instance, go to connection manager
