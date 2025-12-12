@@ -1,0 +1,36 @@
+# Dependencies
+frontend/node_modules
+backend/__pycache__
+backend/*.pyc
+
+# Build outputs
+frontend/dist
+frontend/.expo
+frontend/web-build
+
+# Development files
+.git
+.gitignore
+*.log
+*.md
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
+tests/
+test_result.md
+
+# Misc
+backend/.env
+*.sqlite
+*.db
