@@ -4,18 +4,19 @@
 FROM node:18-alpine AS builder
 
 # Set working directory
-WORKDIR /app
+WORKDIR /build
 
-# Copy package files
-COPY frontend/package.json frontend/yarn.lock ./
+# Copy package files first (for better caching)
+COPY frontend/package.json frontend/yarn.lock* ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --production=false
 
 # Copy all frontend files
 COPY frontend/ ./
 
 # Build the Expo web app for production
+ENV NODE_ENV=production
 RUN yarn build
 
 # Stage 2: Production runtime with Nginx
