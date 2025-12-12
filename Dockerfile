@@ -9,8 +9,8 @@ WORKDIR /build
 # Copy package files first (for better caching)
 COPY frontend/package.json frontend/yarn.lock* ./
 
-# Install dependencies
-RUN yarn install --frozen-lockfile --production=false
+# Install dependencies (without frozen-lockfile for flexibility)
+RUN yarn install --production=false
 
 # Copy all frontend files
 COPY frontend/ ./
