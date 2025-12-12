@@ -11,7 +11,13 @@ This guide explains how to build and deploy the MediaCMS Mobile App using Docker
 
 ### Build the Docker Image
 
+**Important:** Build from the project root directory (where Dockerfile is located)
+
 ```bash
+# Make sure you're in the project root
+cd /path/to/project
+
+# Build the image
 docker build -t mediacms-mobile:latest .
 ```
 
