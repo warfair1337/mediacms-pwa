@@ -225,6 +225,48 @@ To test the app with demo.mediacms.io:
 - AsyncStorage for persistence
 - Local state for UI-only state
 
+## Quick Docker Commands
+
+Using the deployment script:
+```bash
+# Make script executable (first time only)
+chmod +x deploy.sh
+
+# Full deployment
+./deploy.sh deploy
+
+# Or step by step
+./deploy.sh build
+./deploy.sh start
+
+# Check status
+./deploy.sh status
+
+# View logs
+./deploy.sh logs
+
+# Stop
+./deploy.sh stop
+
+# Clean up
+./deploy.sh clean
+```
+
+Manual Docker commands:
+```bash
+# Build
+docker build -t mediacms-mobile:latest .
+
+# Run
+docker run -d -p 8080:80 --name mediacms-mobile mediacms-mobile:latest
+
+# Stop
+docker stop mediacms-mobile
+
+# Logs
+docker logs -f mediacms-mobile
+```
+
 ## License
 
 This is a demo application for MediaCMS integration.
