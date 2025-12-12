@@ -196,7 +196,7 @@ docker run -d \
 ### What's Inside
 
 - **Base Image**: nginx:alpine (lightweight ~40MB)
-- **Node Version**: 18 (build stage only)
+- **Node Version**: 20 (build stage only)
 - **Web Server**: Nginx
 - **App Build**: Optimized production build
 - **Compression**: Gzip enabled
