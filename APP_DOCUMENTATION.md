@@ -64,17 +64,37 @@ A progressive mobile web app for MediaCMS with a modern, dark theme design inspi
 
 ## Getting Started
 
-### Prerequisites
+### Option 1: Docker (Recommended for Production)
+
+**Prerequisites:**
+- Docker 20.10+
+
+**Build and Run:**
+```bash
+# Build the image
+docker build -t mediacms-mobile:latest .
+
+# Run the container
+docker run -d -p 8080:80 --name mediacms-mobile mediacms-mobile:latest
+
+# Access at http://localhost:8080
+```
+
+**For detailed Docker instructions, see [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)**
+
+### Option 2: Development Mode
+
+**Prerequisites:**
 - Node.js 18+ and Yarn
 - Expo Go app (for mobile testing)
 
-### Installation
+**Installation:**
 ```bash
 cd /app/frontend
 yarn install
 ```
 
-### Running the App
+**Running the App:**
 ```bash
 yarn start
 ```
